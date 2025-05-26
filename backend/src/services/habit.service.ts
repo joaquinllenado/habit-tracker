@@ -8,7 +8,10 @@ export async function getAllHabits(): Promise<Habit[]> {
 
 export async function getUserHabits(userId: string): Promise<Habit[] | null> {
     try {
-        const result = await pool.query(`SELECT * FROM habits WHERE user_id = ${userId} ORDER BY created_at DESC`);
+        const result = await pool.query(
+            `SELECT * FROM habits WHERE user_id = $1 ORDER BY created_at DESC`,
+            [userId]
+        );
         return result.rows;
     } catch (error) {
         console.error('Error fetching habits:', error);
@@ -17,6 +20,26 @@ export async function getUserHabits(userId: string): Promise<Habit[] | null> {
         }
         throw new Error('Failed to fetch habits');
     }
+}
+
+export async function updateHabit(habit: Habit): Promise<Habit | null> {
+    try {
+        const result = await pool.query(
+            `UPDATE habits
+             SET title = $1, description = $2, frequency = $3, times_completed = $4, streak = $5, times_skipped = $6, last_completed = $7
+             WHERE id = $8
+             RETURNING *`,
+             [habit.title, habit.description, habit.frequency, habit.timesCompleted, habit.streak, habit.timesSkipped, habit.lastCompleted, habit.id]
+        )
+        return result.rows[0];
+    } catch(error){
+        console.error('Error updating habit:', error);
+        if (error instanceof Error) {
+            throw error;
+        }
+        throw new Error('Failed to update habit');
+    }
+    
 }
 
 export async function createHabit(userId: string, title: string, description: string, frequency: number): Promise<Habit | null> {

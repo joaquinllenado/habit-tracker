@@ -32,6 +32,17 @@ export const getUserHabits = async (req: Request, res: Response) => {
     }
 }
 
+export const updateHabit = async (req: Request, res: Response) => {
+    try {
+        const habitToUpdate = req.body;
+        const habits = await habitService.updateHabit(habitToUpdate);
+        res.status(201).json(habits);
+    } catch (error) {
+        console.error('Error updating habits', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
 export const createHabit = async (req: Request, res: Response) => {
     try {
         const userId = (req as any).user?.userId;

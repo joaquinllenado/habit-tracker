@@ -11,4 +11,8 @@ router.post('/', (req: Request, res: Response) => {
     habitController.createHabit(req, res);
 })
 
+router.post('/:id', (req: Request, res: Response) => {
+    habitController.updateHabit(req, res);
+})
+
 export default router;
