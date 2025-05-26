@@ -65,7 +65,7 @@ export default function SignUp(){
                         </FormItem>
                     )}
                 />
-                <Button type="submit" className="cursor-pointer">Submit</Button>
+                <Button type="submit" className="cursor-pointer hover:bg-purple-500">Submit</Button>
             </form>
         </Form>
     )

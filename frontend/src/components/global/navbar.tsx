@@ -16,12 +16,12 @@ export default function Navbar(){
                 <p className="text-lg">Welcome, {user.name}</p>
                 : (
                 <div className="flex flex-row gap-3">
-                    <Button variant="ghost" className="cursor-pointer">
+                    <Button variant="ghost" className="cursor-pointer hover:text-purple-500">
                         <Link href='/login'>
                             Login
                         </Link>
                     </Button>
-                    <Button className="cursor-pointer">
+                    <Button className="cursor-pointer hover:bg-purple-500">
                         <Link href='/signup'>
                             Sign up
                         </Link>
