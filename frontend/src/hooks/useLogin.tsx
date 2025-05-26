@@ -26,10 +26,9 @@ export function useLogin() {
     function onSubmit(values: z.infer<typeof loginSchema>) {
         fetch('http://localhost:4000/api/users/login', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(values),
+            credentials: 'include'
         })
         .then(async (res) => {
             if (!res.ok) {
