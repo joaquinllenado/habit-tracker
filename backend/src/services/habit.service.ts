@@ -58,3 +58,11 @@ export async function createHabit(userId: string, title: string, description: st
         throw new Error('Failed to create habit');
     }
 }
+
+export async function deleteHabit(id: string): Promise<void> {
+    try {
+        await pool.query('DELETE FROM habits WHERE id = $1', [id]);
+    } catch (error) {
+        console.error('Error deleting habit:', error);
+    }
+}

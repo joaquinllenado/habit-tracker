@@ -61,3 +61,14 @@ export const createHabit = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 }
+
+export const deleteHabit = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        await habitService.deleteHabit(id);
+        res.status(200).json({ message: 'Habit deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting habit:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}

@@ -15,4 +15,8 @@ router.post('/:id', (req: Request, res: Response) => {
     habitController.updateHabit(req, res);
 })
 
+router.delete('/:id', (req: Request, res: Response) => {
+    habitController.deleteHabit(req, res);
+})
+
 export default router;
