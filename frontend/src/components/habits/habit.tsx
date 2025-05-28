@@ -4,8 +4,9 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "../ui/card";
 import type { Habit } from "@/types/habit-type"
+import { X } from "lucide-react";
 
-export default function Habit({ habit, token } : { habit: Habit, token: string }) {
+export default function Habit({ habit, token, onHabitUpdate } : { habit: Habit, token: string, onHabitUpdate: () => Promise<void> }) {
     const [timesCompleted, setTimesCompleted] = useState(habit.timesCompleted || 0);
 
     function handleCompleted() {
@@ -24,13 +25,27 @@ export default function Habit({ habit, token } : { habit: Habit, token: string }
             },
             body: JSON.stringify(updatedHabit)
         });
+        onHabitUpdate();
         console.log('Successfully updated')
     }
 
+    function handleDelete() {
+        fetch(`http://localhost:4000/api/habits/${habit.id}`, {
+            method: 'DELETE',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        });
+        onHabitUpdate();
+        console.log('Successfully deleted')
+    }
+
     return(
-        <Card className="flex flex-col text-center items-center justify-center gap-3">
+        <Card className="flex flex-col text-center items-center justify-center gap-3 relative">
             <CardHeader className="w-full">
                 <CardTitle>{habit.title}</CardTitle>
+                <X className="cursor-pointer absolute top-2 right-2" onClick={handleDelete}/>
             </CardHeader>
             <CardContent>
                 <p className="text-md text-muted-foreground">
